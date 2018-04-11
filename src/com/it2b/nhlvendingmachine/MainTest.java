@@ -1,57 +1,61 @@
 package com.it2b.nhlvendingmachine;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class MainTest {
 	
-	private Main mainC;
+	private VendingMachine mainC;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		mainC = new Main();
+		//Instance of VendingMachine to test methods
+		mainC = new VendingMachine();
 		
-		/*
-		 * Adding cash to the machine -> Numbers = cents -> in total adding 68.27 Euro
-		 * Use the following to fill up the machine with sample data
+		//Creating neccessary items
+		mainC.item[0] = new Item("Balpen",13, 0.25f);
+		mainC.item[1] = new Item("Notebook with Stenden logo",13, 2.45f);
+		mainC.item[2] = new Item("Whiteboard markers",13, 3.65f);
+		mainC.item[3] = new Item("Pencil",13, 0.1f);
+		mainC.item[4] = new Item("Key cord with NHL Stenden Logo",13, 0.25f);
+		mainC.item[5] = new Item("Fine liner",13, 0.5f);
+		mainC.item[6] = new Item("USB stick 16GB",13, 6.95f);
+		mainC.item[7] = new Item("Bambook reusable Notebook", 13, 18.45f);
 		
-		machineMoney.changeCash("2", true);
-		machineMoney.changeCash("5", true);
-		machineMoney.changeCash("5", true);
-		machineMoney.changeCash("5", true);
-		machineMoney.changeCash("10", true);
-		machineMoney.changeCash("10", true);
-		machineMoney.changeCash("10", true);
-		machineMoney.changeCash("20", true);
-		machineMoney.changeCash("20", true);
-		machineMoney.changeCash("20", true);
-		machineMoney.changeCash("20", true);
-		machineMoney.changeCash("50", true);
-		machineMoney.changeCash("50", true);
-		machineMoney.changeCash("50", true);
-		machineMoney.changeCash("50", true);
-		machineMoney.changeCash("100", true);
-		machineMoney.changeCash("100", true);
-		machineMoney.changeCash("100", true);
-		machineMoney.changeCash("100", true);
-		machineMoney.changeCash("100", true);
-		machineMoney.changeCash("200", true);
-		machineMoney.changeCash("200", true);
-		machineMoney.changeCash("200", true);
-		machineMoney.changeCash("200", true);
-		machineMoney.changeCash("200", true);
-		machineMoney.changeCash("500", true);
-		machineMoney.changeCash("500", true);
-		machineMoney.changeCash("500", true);
-		machineMoney.changeCash("500", true);
-		machineMoney.changeCash("1000", true);
-		machineMoney.changeCash("2000", true);
-		
-		*/
+		//Init machine money
+		mainC.machineMoney.changeCash("0.05", true);
+		mainC.machineMoney.changeCash("0.05", true);
+		mainC.machineMoney.changeCash("0.05", true);
+		mainC.machineMoney.changeCash("0.05", true);
+		mainC.machineMoney.changeCash("0.1", true);
+		mainC.machineMoney.changeCash("0.1", true);
+		mainC.machineMoney.changeCash("0.1", true);
+		mainC.machineMoney.changeCash("0.2", true);
+		mainC.machineMoney.changeCash("0.2", true);
+		mainC.machineMoney.changeCash("0.2", true);
+		mainC.machineMoney.changeCash("0.2", true);
+		mainC.machineMoney.changeCash("0.5", true);
+		mainC.machineMoney.changeCash("0.5", true);
+		mainC.machineMoney.changeCash("0.5", true);
+		mainC.machineMoney.changeCash("0.5", true);
+		mainC.machineMoney.changeCash("1", true);
+		mainC.machineMoney.changeCash("1", true);
+		mainC.machineMoney.changeCash("1", true);
+		mainC.machineMoney.changeCash("1", true);
+		mainC.machineMoney.changeCash("1", true);
+		mainC.machineMoney.changeCash("2", true);
+		mainC.machineMoney.changeCash("2", true);
+		mainC.machineMoney.changeCash("2", true);
+		mainC.machineMoney.changeCash("2", true);
+		mainC.machineMoney.changeCash("2", true);
+		mainC.machineMoney.changeCash("5", true);
+		mainC.machineMoney.changeCash("5", true);
+		mainC.machineMoney.changeCash("5", true);
+		mainC.machineMoney.changeCash("5", true);
+		mainC.machineMoney.changeCash("10", true);
+		mainC.machineMoney.changeCash("10", true);
 	}
 
 	/**
@@ -59,8 +63,8 @@ class MainTest {
 	 */
 	@Test
 	void testInsertMoney() {
-		mainC.insertMoney("200");
-		Assertions.assertEquals(2f, mainC.showMoney());
+		mainC.insertMoney("2");
+		Assertions.assertEquals(2f, mainC.showMoneySum());
 	}
 	
 	
@@ -71,9 +75,12 @@ class MainTest {
 	 */
 	@Test
 	void testBuyItem() {
+		mainC.insertMoney("2");
+		
 		mainC.buy(0);
 		mainC.buy(5);
-		Assertions.assertEquals(1.25f, mainC.showMoney());
+		
+		Assertions.assertEquals(1.25f, mainC.showMoneySum());
 	}
 	
 	/**
@@ -85,7 +92,10 @@ class MainTest {
 	 */
 	@Test
 	void testReturnMoney() {
-		mainC.returnMoney();
+		
+		mainC.insertMoney("2");
+		mainC.buy(0);
+		mainC.buy(5);
 		
 		int[] mMoney = mainC.getMachineMoney();
 		
@@ -99,6 +109,7 @@ class MainTest {
 	 * Getting price of the fifth item
 	 * this should be 0.5f which represents 0.50 Euro.
 	 */
+	
 	@Test
 	void testGetPrice() {
 		Assertions.assertEquals(0.5f, mainC.getPrice(5));
@@ -111,10 +122,14 @@ class MainTest {
 	 */
 	@Test
 	void testStock() {
-		int oldStock = mainC.increaseStock(0, 0);
-		int newStock = mainC.increaseStock(0, 10);
 		
-		Assertions.assertEquals(oldStock, 12);
-		Assertions.assertEquals(newStock, 13);
+		mainC.buy(0);
+		
+		int oldStock = mainC.item[0].getQuantity();
+		int newStock = mainC.increaseStock(0, 1);
+		
+		Assertions.assertEquals(12, oldStock);
+		Assertions.assertEquals(13, newStock);
 	}
+	
 }
